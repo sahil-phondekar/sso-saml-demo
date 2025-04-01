@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAML SSO Demo Test Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script>
+        function redirect(path) {
+            location.href = window.location.origin + path;
+        }
+    </script>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #3b82f6;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --light-color: #f8fafc;
+            --dark-color: #1e293b;
+            --text-color: #334155;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: #f1f5f9;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-color);
+            max-width: 800px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .description {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 2rem;
+        }
+
+        .description h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .description p {
+            margin-bottom: 1rem;
+        }
+
+        .endpoints-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 1.5rem;
+            transition: var(--transition);
+            cursor: pointer;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .api-method {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            margin-right: 0.5rem;
+            color: white;
+        }
+
+        .get-method {
+            background-color: var(--success-color);
+        }
+
+        .post-method {
+            background-color: var(--warning-color);
+        }
+
+        .card-title {
+            font-weight: 500;
+            margin: 0.75rem 0 0.5rem;
+            color: var(--dark-color);
+        }
+
+        .card-description {
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .card-notes {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px dashed #e2e8f0;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e2e8f0;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem 1rem;
+            }
+            
+            .title {
+                font-size: 2rem;
+            }
+            
+            .endpoints-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="title">SAML SSO Demo</h1>
+            <p class="subtitle">Test your SAML Single Sign-On integration with these endpoints</p>
+        </header>
+
+        <section class="description">
+            <h2>About this Demo</h2>
+            <p>This page provides a set of endpoints to test SAML 2.0 authentication flows. You can generate unsigned SAML responses, create signatures, and test different binding methods including Redirect Binding and POST Binding.</p>
+            <p>SAML (Security Assertion Markup Language) is an XML-based standard for exchanging authentication and authorization data between parties, particularly between an identity provider (IdP) and a service provider (SP).</p>
+            <p>Select any of the endpoints below to test different aspects of the SAML flow.</p>
+        </section>
+
+        <div class="endpoints-container">
+            <div class="card" onclick="redirect('/unsigned')">
+                <span class="api-method get-method">GET</span>
+                <h3 class="card-title">Unsigned SAML Response</h3>
+                <p class="card-description">Generate a basic unsigned SAML Response in XML format with default test values for NameID, issuer, and other attributes.</p>
+                <div class="card-notes">
+                    <strong>Use Case:</strong> Testing response parsing without signature validation.<br>
+                    <strong>Note:</strong> Most production systems require signed assertions.
+                </div>
+            </div>
+
+            <div class="card" onclick="redirect('/signed')">
+                <span class="api-method get-method">GET</span>
+                <h3 class="card-title">Signed SAML Response (Message Only)</h3>
+                <p class="card-description">Generate a SAML Response with a digital signature on the Response element only.</p>
+                <div class="card-notes">
+                    <strong>Use Case:</strong> Testing systems that validate the SAML Response signature but not assertion signatures.<br>
+                    <strong>Security:</strong> Less secure than signing both Response and Assertion.
+                </div>
+            </div>
+
+            <div class="card" onclick="redirect('/signed-all')">
+                <span class="api-method get-method">GET</span>
+                <h3 class="card-title">Signed SAML Response (Assertion and Message)</h3>
+                <p class="card-description">Generate a SAML Response with digital signatures on both the Response and Assertion elements.</p>
+                <div class="card-notes">
+                    <strong>Use Case:</strong> Testing systems with full signature validation requirements.<br>
+                    <strong>Security:</strong> Most secure option - recommended for production.
+                </div>
+            </div>
+
+            <div class="card" onclick="redirect('/redirect-binding')">
+                <span class="api-method post-method">POST</span>
+                <h3 class="card-title">Redirect Binding</h3>
+                <p class="card-description">Simulate SAML Response delivery via HTTP Redirect Binding (SAMLResponse as URL parameter).</p>
+                <div class="card-notes">
+                    <strong>Use Case:</strong> Testing IdP-initiated flows with redirect binding.<br>
+                    <strong>Limitation:</strong> URL length restrictions apply - not suitable for large assertions.
+                </div>
+            </div>
+
+            <div class="card" onclick="redirect('/post-binding-manual')">
+                <span class="api-method post-method">POST</span>
+                <h3 class="card-title">POST Binding (Manual)</h3>
+                <p class="card-description">Generate a SAML POST form that requires manual submission (user clicks submit button).</p>
+                <div class="card-notes">
+                    <strong>Use Case:</strong> Debugging POST binding flows with manual control.<br>
+                    <strong>Testing:</strong> Allows inspection of form before submission.
+                </div>
+            </div>
+
+            <div class="card" onclick="redirect('/post-binding-programmatic')">
+                <span class="api-method post-method">POST</span>
+                <h3 class="card-title">POST Binding (Auto-Submit)</h3>
+                <p class="card-description">Generate a SAML POST form that auto-submits via JavaScript (simulates real IdP behavior).</p>
+                <div class="card-notes">
+                    <strong>Use Case:</strong> Testing standard SP-initiated flows.<br>
+                    <strong>Behavior:</strong> Most realistic simulation of production IdP.
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>SAML SSO Demo Test Page | For testing purposes only | Not for production use</p>
+        </footer>
+    </div>
+</body>
+</html>
